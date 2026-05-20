@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>女巫的解药 - 颈腰椎护理小游戏</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:"微软雅黑";}
+        body{
+            background:linear-gradient(135deg,#4b2e83,#271747);
+            min-height:100vh;
+            padding:25px;
+            color:#fff;
+        }
+        .game-title{
+            text-align:center;
+            font-size:34px;
+            color:#ffdd70;
+            margin-bottom:20px;
+            text-shadow:0 0 12px #ffb84d;
+        }
+        .question-box{
+            background:rgba(255,255,255,0.12);
+            border:2px solid #ffd369;
+            border-radius:16px;
+            padding:22px;
+            max-width:950px;
+            margin:0 auto 30px;
+            text-align:center;
+            font-size:20px;
+        }
+        .list-box{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:16px;
+            max-width:1050px;
+            margin:0 auto;
+        }
+        .skill-item{
+            background:rgba(120,70,200,0.55);
+            border:2px solid #d2b8ff;
+            border-radius:14px;
+            padding:20px;
+            font-size:17px;
+            cursor:pointer;
+            transition:0.3s all;
+            position:relative;
+        }
+        .skill-item:hover{
+            transform:scale(1.04);
+            box-shadow:0 0 18px #c09cff;
+        }
+        .medicine-bottle{
+            position:absolute;
+            right:20px;
+            top:50%;
+            transform:translateY(-50%) scale(0);
+            font-size:42px;
+            transition:0.5s ease;
+        }
+        .show-medicine{
+            transform:translateY(-50%) scale(1.3);
+        }
+        .right-text{
+            color:#73ffb0;
+            margin-top:12px;
+            display:none;
+        }
+        .wrong-text{
+            color:#ff7777;
+            margin-top:12px;
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="game-title">🧙‍♀️ 女巫的解药</h1>
+    <div class="question-box">
+        刚刚所学内容中哪三项是缓解颈腰椎劳损的护理技能操作？<br>点击选项寻找隐藏解药！
+    </div>
+
+    <div class="list-box">
+        <div class="skill-item" data-answer="false">
+            颈椎缓慢屈伸放松法
+            <span class="medicine-bottle">🧪</span>
+            <div class="wrong-text">❌ 未找到解药</div>
+        </div>
+        <div class="skill-item" data-answer="false">
+            颈椎左右侧屈拉伸法
+            <span class="medicine-bottle">🧪</span>
+            <div class="wrong-text">❌ 未找到解药</div>
+        </div>
+        <div class="skill-item" data-answer="false">
+            斜方肌揉捏放松技能
+            <span class="medicine-bottle">🧪</span>
+            <div class="wrong-text">❌ 未找到解药</div>
+        </div>
+        <div class="skill-item" data-answer="false">
+            风池穴定点按揉技能
+            <span class="medicine-bottle">🧪</span>
+            <div class="wrong-text">❌ 未找到解药</div>
+        </div>
+        <div class="skill-item" data-answer="false">
+            肩井穴拿捏实操
+            <span class="medicine-bottle">🧪</span>
+            <div class="wrong-text">❌ 未找到解药</div>
+        </div>
+        <div class="skill-item" data-answer="false">
+            颈部热敷理疗实操
+            <span class="medicine-bottle">🧪</span>
+            <div class="wrong-text">❌ 未找到解药</div>
+        </div>
+        <div class="skill-item" data-answer="false">
+            靠墙收下颌矫正技能
+            <span class="medicine-bottle">🧪</span>
+            <div class="wrong-text">❌ 未找到解药</div>
+        </div>
+        <div class="skill-item" data-answer="true">
+            颈椎米字拉伸法
+            <span class="medicine-bottle">🧪</span>
+            <div class="right-text">✅ 成功解锁女巫解药！</div>
+        </div>
+        <div class="skill-item" data-answer="true">
+            腰椎靠墙拉伸法
+            <span class="medicine-bottle">🧪</span>
+            <div class="right-text">✅ 成功解锁女巫解药！</div>
+        </div>
+        <div class="skill-item" data-answer="true">
+            四十分钟起身法则
+            <span class="medicine-bottle">🧪</span>
+            <div class="right-text">✅ 成功解锁女巫解药！</div>
+        </div>
+    </div>
+
+    <!-- 背景音乐+特效音效 -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-dreamy-fantasy-mystery-1170.mp3">
+    
+    <audio id="successSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magical-sparkle-wind-1191.mp3">
+    
+    <audio id="errorSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3">
+    
+
+    <script>
+        const bgMusic = document.getElementById('bgMusic');
+        const successSound = document.getElementById('successSound');
+        const errorSound = document.getElementById('errorSound');
+        const allItems = document.querySelectorAll('.skill-item');
+
+        document.body.addEventListener('click',()=>{
+            bgMusic.volume = 0.25;
+            bgMusic.play();
+        },{once:true});
+
+        allItems.forEach(item => {
+            item.addEventListener('click',function(){
+                let isCorrect = this.dataset.answer === 'true';
+                let bottle = this.querySelector('.medicine-bottle');
+                let rightTip = this.querySelector('.right-text');
+                let wrongTip = this.querySelector('.wrong-text');
+
+                if(isCorrect){
+                    bottle.classList.add('show-medicine');
+                    rightTip.style.display = 'block';
+                    successSound.currentTime = 0;
+                    successSound.play();
+                    this.style.background = "rgba(60,190,130,0.6)";
+                }else{
+                    wrongTip.style.display = 'block';
+                    errorSound.currentTime = 0;
+                    errorSound.play();
+                    this.style.background = "rgba(190,70,90,0.6)";
+                }
+            })
+        })
+    </script>
+</body>
+</html>
